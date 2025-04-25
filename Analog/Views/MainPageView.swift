@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct MainPageView: View {
-    @EnvironmentObject var auth: AuthViewModel
     @EnvironmentObject var cartManager: CartManager
 
-    // Temporary mock featured albums
     let featuredAlbums = [
         Album(id: "1", title: "Abbey Road", artist: "The Beatles", genre: "Rock", format: "Vinyl", price: 29.99, coverURL: "abbey_road", storeID: "store1"),
         Album(id: "2", title: "Thriller", artist: "Michael Jackson", genre: "Pop", format: "CD", price: 14.99, coverURL: "thriller", storeID: "store2"),
@@ -55,50 +53,42 @@ struct MainPageView: View {
 
                     Divider().padding(.horizontal)
 
-                    VStack(spacing: 16) {
-                        NavigationLink(destination: StoreListView()) {
-                            Label("Browse Stores", systemImage: "music.note.house")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("🧃 Shop by Format")
+                            .font(.headline)
+                            .padding(.horizontal)
 
-                        NavigationLink(destination: CartView()) {
-                            Label("View Cart", systemImage: "cart")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
+                        HStack(spacing: 12) {
+                            formatTag("CD")
+                            formatTag("Vinyl")
+                            formatTag("Cassette")
                         }
-
-                        NavigationLink(destination: OrdersView()) {
-                            Label("My Orders", systemImage: "shippingbox")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-
-                        Button(action: {
-                            auth.logOut()
-                        }) {
-                            Label("Log Out", systemImage: "arrow.backward.circle")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.red)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
+
+                    Divider().padding(.horizontal)
+
+                    NavigationLink(destination: CartView()) {
+                        Label("View Cart", systemImage: "cart.fill")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.horizontal)
+                    }
                 }
                 .padding(.top)
             }
             .navigationTitle("Welcome to Analog")
         }
+    }
+
+    func formatTag(_ format: String) -> some View {
+        Text(format)
+            .padding(.vertical, 6)
+            .padding(.horizontal, 12)
+            .background(Color.gray.opacity(0.2))
+            .cornerRadius(8)
     }
 }

@@ -2,9 +2,8 @@
 //  AnalogApp.swift
 //  Analog
 //
-//  Created by zain Mayoof on 16/04/2025.
+//  Created by Zain Mayoof on 16/04/2025.
 //
-
 
 import SwiftUI
 import Firebase
@@ -13,25 +12,21 @@ import Firebase
 struct AnalogApp: App {
     @StateObject var auth = AuthViewModel()
     @StateObject var cartManager = CartManager()
+    @StateObject var favoritesManager = FavoritesManager()
 
     init() {
         FirebaseApp.configure()
+        // Force logout on launch — for testing login/signup screens
+        // Remove this line for production:
+        // try? Auth.auth().signOut()
     }
 
     var body: some Scene {
         WindowGroup {
-            if auth.user != nil {
-                // 👇 This will show the main page after login
-                MainPageView()
-                    .environmentObject(auth)
-                    .environmentObject(cartManager)
-            } else {
-                // 👇 This is the login screen for new/unauthenticated users
-                NavigationView {
-                    LoginView()
-                }
+            RootView()
                 .environmentObject(auth)
-            }
+                .environmentObject(cartManager)
+                .environmentObject(favoritesManager)
         }
     }
 }

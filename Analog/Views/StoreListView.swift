@@ -8,33 +8,48 @@
 import SwiftUI
 
 struct StoreListView: View {
-    let stores: [Store] = [
-        Store(id: "store1", name: "Vinyl Vault", imageName: "store1", location: "New York"),
-        Store(id: "store2", name: "Cassette Corner", imageName: "store2", location: "Los Angeles"),
-        Store(id: "store3", name: "CD Central", imageName: "store3", location: "Chicago")
-    ]
+    @StateObject private var viewModel = StoreListViewModel()
 
     var body: some View {
-        List(stores) { store in
-            NavigationLink(destination: StoreDetailView(store: store)) {
-                HStack(spacing: 12) {
-                    Image(store.imageName)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 60, height: 60)
-                        .cornerRadius(8)
+        NavigationView {
+            VStack {
+                TextField("Search by name or type", text: $viewModel.searchText)
+                    .padding(.horizontal)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onChange(of: viewModel.searchText) { _ in
+                        viewModel.filterStores()
+                    }
 
-                    VStack(alignment: .leading) {
-                        Text(store.name)
-                            .font(.headline)
-                        Text(store.location)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                List(viewModel.filteredStores) { store in
+                    NavigationLink(destination: StoreDetailView(store: store)) {
+                        HStack {
+                            Image(store.imageName) // replace with AsyncImage if from URL
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                                .cornerRadius(8)
+
+                            VStack(alignment: .leading) {
+                                Text(store.name)
+                                    .font(.headline)
+                                Text(store.type)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                if let userLoc = viewModel.userLocation {
+                                    Text("\(String(format: "%.2f", store.distance(from: userLoc))) km away")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+
+                            Spacer()
+                            Text("⭐️ \(String(format: "%.1f", store.rating))")
+                                .font(.subheadline)
+                        }
+                        .padding(.vertical, 6)
                     }
                 }
-                .padding(.vertical, 4)
             }
+            .navigationTitle("Browse Shops")
         }
-        .navigationTitle("Browse Stores")
     }
 }
