@@ -4,6 +4,7 @@
 //
 //  Created by zain Mayoof on 25/04/2025.
 //
+
 import SwiftUI
 
 struct MainTabView: View {
@@ -14,9 +15,9 @@ struct MainTabView: View {
                     Label("Home", systemImage: "house")
                 }
 
-            StoreListView()
+            StoreMapListView() // NEW view combining Map + list
                 .tabItem {
-                    Label("Stores", systemImage: "building.2")
+                    Label("Stores", systemImage: "map")
                 }
 
             FavoritesView()
@@ -27,11 +28,6 @@ struct MainTabView: View {
             CartView()
                 .tabItem {
                     Label("Cart", systemImage: "cart")
-                }
-
-            ProfileView()
-                .tabItem {
-                    Label("Profile", systemImage: "person.circle")
                 }
         }
     }

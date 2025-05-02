@@ -5,18 +5,30 @@
 //  Created by zain Mayoof on 16/04/2025.
 //
 
-
-// The Album model struct with properties like title, artist, price, etc.
+import Foundation
+import FirebaseFirestoreSwift
 
 struct Album: Identifiable, Codable {
-    var id: String
+    @DocumentID var id: String?
     var title: String
     var artist: String
     var genre: String
     var format: String
     var price: Double
     var coverURL: String
-    var storeID: String
-    var description: String? // Add this if using it
+    var storeID: String   //  Lowercase here
+    var featured: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case artist
+        case genre
+        case format
+        case price
+        case coverURL
+        case storeID = "storeID"   //  Map the Firestore field to this property
+        case featured
+    }
 }
 

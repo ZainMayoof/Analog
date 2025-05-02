@@ -11,18 +11,20 @@
 //
 //  Created by zain Mayoof on 18/04/2025.
 //
-
 import SwiftUI
 
 struct StoreDetailView: View {
     let store: Store
+    @EnvironmentObject var albumManager: AlbumManager
     @StateObject private var reviewManager = ReviewManager()
+
     @State private var rating = 4
     @State private var comment = ""
 
-    // Filter albums by this store
+    // Filter albums for this store
     var storeAlbums: [Album] {
-        mockAlbums.filter { $0.storeID == (store.id ?? "") }
+        albumManager.albums.filter { $0.storeID == store.id }
+
     }
 
     var body: some View {
@@ -55,31 +57,31 @@ struct StoreDetailView: View {
                         .font(.headline)
                         .padding(.horizontal)
 
-                    ForEach(storeAlbums) { album in
-                        NavigationLink(destination: AlbumDetailView(album: album)) {
-                            HStack(spacing: 12) {
-                                Image(album.coverURL)
-                                    .resizable()
-                                    .frame(width: 60, height: 60)
-                                    .cornerRadius(8)
-
-                                VStack(alignment: .leading) {
-                                    Text(album.title)
-                                        .font(.headline)
-                                    Text(album.artist)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 4)
-                        }
-                    }
-
                     if storeAlbums.isEmpty {
                         Text("No albums available.")
                             .foregroundColor(.gray)
                             .padding(.horizontal)
+                    } else {
+                        ForEach(storeAlbums) { album in
+                            NavigationLink(destination: AlbumDetailView(album: album)) {
+                                HStack(spacing: 12) {
+                                    Image(album.coverURL)
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                        .cornerRadius(8)
+
+                                    VStack(alignment: .leading) {
+                                        Text(album.title)
+                                            .font(.headline)
+                                        Text(album.artist)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .padding(.horizontal)
+                                .padding(.vertical, 4)
+                            }
+                        }
                     }
                 }
 
@@ -166,5 +168,6 @@ struct StoreDetailView_Previews: PreviewProvider {
             longitude: 50.5875
         )
         StoreDetailView(store: sampleStore)
+            .environmentObject(AlbumManager())
     }
 }

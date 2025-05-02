@@ -2,9 +2,8 @@
 //  AlbumDetailView.swift
 //  Analog
 //
-//  Created by zain Mayoof on 16/04/2025.
+//  Created by Zain Mayoof on 16/04/2025.
 //
-
 
 import SwiftUI
 
@@ -12,7 +11,7 @@ struct AlbumDetailView: View {
     @EnvironmentObject var cartManager: CartManager
     @EnvironmentObject var favoritesManager: FavoritesManager
     let album: Album
-
+    
     @StateObject private var reviewManager = ReviewManager()
     @State private var rating = 4
     @State private var comment = ""
@@ -21,41 +20,47 @@ struct AlbumDetailView: View {
         ScrollView {
             VStack(spacing: 16) {
                 // 🎨 Album Cover
-                Image(album.coverURL)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 250)
-                    .cornerRadius(10)
-
+                if let coverURL = album.coverURL {
+                    Image(coverURL)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 250)
+                        .cornerRadius(10)
+                } else {
+                    Color.gray
+                        .frame(height: 250)
+                        .cornerRadius(10)
+                }
+                
                 // 📀 Album Details
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text(album.title)
+                        Text(album.title ?? "Unknown Title")
                             .font(.title)
                             .bold()
-
+                        
                         Spacer()
-
+                        
                         Button(action: {
-                            favoritesManager.toggleFavorite(for: album.id)
+                            favoritesManager.toggleFavorite(for: album.id ?? "")
                         }) {
-                            Image(systemName: favoritesManager.isFavorite(album.id) ? "heart.fill" : "heart")
+                            Image(systemName: favoritesManager.isFavorite(album.id ?? "") ? "heart.fill" : "heart")
                                 .foregroundColor(.red)
                         }
                         .padding(.trailing, 8)
                     }
 
-                    Text("by \(album.artist)")
+                    Text("by \(album.artist ?? "Unknown Artist")")
                         .font(.subheadline)
                         .foregroundColor(.gray)
 
-                    Text(album.genre)
+                    Text(album.genre ?? "Unknown Genre")
                         .font(.subheadline)
 
-                    Text("Format: \(album.format)")
+                    Text("Format: \(album.format ?? "Unknown Format")")
                         .font(.caption)
 
-                    Text("Price: $\(album.price, specifier: "%.2f")")
+                    Text("Price: $\(album.price ?? 0, specifier: "%.2f")")
                         .font(.headline)
                         .padding(.top, 8)
 
@@ -88,7 +93,7 @@ struct AlbumDetailView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
                     Button("Submit Review") {
-                        reviewManager.submitAlbumReview(albumID: album.id, rating: rating, comment: comment) { success in
+                        reviewManager.submitAlbumReview(albumID: album.id ?? "", rating: rating, comment: comment) { success in
                             if success {
                                 comment = ""
                                 rating = 4
@@ -139,25 +144,9 @@ struct AlbumDetailView: View {
             }
         }
         .onAppear {
-            reviewManager.fetchReviewsForAlbum(albumID: album.id)
+            reviewManager.fetchReviewsForAlbum(albumID: album.id ?? "")
         }
         .navigationBarTitle("Album Details", displayMode: .inline)
     }
 }
 
-struct AlbumDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        AlbumDetailView(album: Album(
-            id: "1",
-            title: "Abbey Road",
-            artist: "The Beatles",
-            genre: "Rock",
-            format: "Vinyl",
-            price: 29.99,
-            coverURL: "abbey_road",
-            storeID: "store1"
-        ))
-        .environmentObject(CartManager())
-        .environmentObject(FavoritesManager())
-    }
-}

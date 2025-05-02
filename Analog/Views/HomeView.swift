@@ -2,92 +2,74 @@
 //  HomeView.swift
 //  Analog
 //
-//  Created by zain Mayoof on 16/04/2025.
+//  Created by Zain Mayoof on 16/04/2025.
 //
 
-
-// The SwiftUI view that lists all sample albums
 import SwiftUI
 
 struct HomeView: View {
-    let featuredAlbums = [
-        Album(id: "1", title: "Abbey Road", artist: "The Beatles", genre: "Rock", format: "Vinyl", price: 29.99, coverURL: "abbey_road", storeID: "store1"),
-        Album(id: "2", title: "Thriller", artist: "Michael Jackson", genre: "Pop", format: "CD", price: 14.99, coverURL: "thriller", storeID: "store2"),
-        Album(id: "3", title: "Random Access Memories", artist: "Daft Punk", genre: "Electronic", format: "Cassette", price: 11.99, coverURL: "ram", storeID: "store3")
-    ]
+    @StateObject private var albumManager = AlbumManager()
+
+    var cds: [Album] {
+        albumManager.albums.filter { $0.format.lowercased() == "cd" }
+    }
+
+    var vinyls: [Album] {
+        albumManager.albums.filter { $0.format.lowercased() == "vinyl" }
+    }
+
+    var cassettes: [Album] {
+        albumManager.albums.filter { $0.format.lowercased() == "cassette" }
+    }
 
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    // Featured Section
-                    VStack(alignment: .leading) {
-                        Text("Featured Albums")
-                            .font(.title2).bold()
-                            .padding(.horizontal)
-
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 16) {
-                                ForEach(featuredAlbums) { album in
-                                    NavigationLink(destination: AlbumDetailView(album: album)) {
-                                        VStack(alignment: .leading) {
-                                            Image(album.coverURL)
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 140, height: 140)
-                                                .cornerRadius(10)
-
-                                            Text(album.title)
-                                                .font(.headline)
-                                                .lineLimit(1)
-                                            Text(album.artist)
-                                                .font(.caption)
-                                                .foregroundColor(.secondary)
-                                        }
-                                        .frame(width: 140)
-                                    }
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
+                VStack(alignment: .leading, spacing: 32) {
+                    // 🏠 Welcome Header
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Welcome to")
+                            .font(.title2)
+                            .foregroundColor(.secondary)
+                        Text("Analog")
+                            .font(.largeTitle.bold())
                     }
+                    .padding(.horizontal)
 
-                    // Shop by Store
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Shop by Store")
-                                .font(.title2).bold()
-                            Spacer()
-                            NavigationLink("View All", destination: StoreListView())
-                        }
-                        .padding(.horizontal)
+                    // 💿 CD Section
+                    AlbumRowView(
+                        title: "CDs",
+                        albums: cds,
+                        seeAllDestination: AnyView(FormatAlbumListView(format: "CD"))
+                    )
 
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 16) {
-                                ForEach(mockStores) { store in
-                                    NavigationLink(destination: StoreDetailView(store: store)) {
-                                        VStack {
-                                            Image(store.imageName)
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 100, height: 100)
-                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                    // 🎵 Vinyl Section
+                    AlbumRowView(
+                        title: "Vinyls",
+                        albums: vinyls,
+                        seeAllDestination: AnyView(FormatAlbumListView(format: "Vinyl"))
+                    )
 
-                                            Text(store.name)
-                                                .font(.caption)
-                                                .lineLimit(1)
-                                                .frame(width: 100)
-                                        }
-                                    }
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
+                    // 📼 Cassette Section
+                    AlbumRowView(
+                        title: "Cassettes",
+                        albums: cassettes,
+                        seeAllDestination: AnyView(FormatAlbumListView(format: "Cassette"))
+                    )
                 }
                 .padding(.top)
             }
-            .navigationTitle("Welcome to Analog")
+            .navigationTitle("Home")
+            .navigationBarItems(trailing:
+                NavigationLink(destination: ProfileView()) {
+                    Image(systemName: "person.circle")
+                        .font(.title2)
+                }
+            )
         }
+        .onAppear {
+            albumManager.fetchAllAlbums()
+        }
+        .environmentObject(albumManager)
     }
 }
