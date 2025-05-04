@@ -20,10 +20,6 @@ struct MainTabView: View {
                     Label("Stores", systemImage: "map")
                 }
 
-            FavoritesView()
-                .tabItem {
-                    Label("Favorites", systemImage: "heart")
-                }
 
             CartView()
                 .tabItem {

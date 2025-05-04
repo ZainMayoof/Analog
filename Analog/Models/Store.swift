@@ -13,9 +13,9 @@ struct Store: Identifiable, Codable {
     @DocumentID var id: String?
     let name: String
     let imageName: String
-    let location: String       // e.g. "London"
-    let type: String           // e.g. "Vinyl", "Cassette"
-    let rating: Double         // average rating (0.0–5.0)
+    let location: String
+    let type: String
+    let rating: Double
     let latitude: Double
     let longitude: Double
 
