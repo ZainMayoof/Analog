@@ -12,7 +12,7 @@ struct Review: Identifiable, Codable {
     @DocumentID var id: String?
     
     var storeID: String?
-    var albumID: String?  // 🔁 Supports album reviews too
+    var albumID: String?  
     
     var userID: String
     var userEmail: String

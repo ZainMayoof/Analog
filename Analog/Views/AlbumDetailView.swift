@@ -10,6 +10,7 @@ import SwiftUI
 struct AlbumDetailView: View {
     @EnvironmentObject var cartManager: CartManager
     @EnvironmentObject var favoritesManager: FavoritesManager
+    @EnvironmentObject var storeManager: StoreManager // Add this line
     let album: Album
     
     @StateObject private var reviewManager = ReviewManager()
@@ -65,6 +66,21 @@ struct AlbumDetailView: View {
                         .padding(.top, 8)
 
                     Divider()
+
+                    // 🏬 Store Information
+                    if let store = storeManager.stores.first(where: { $0.id == album.storeID }) {
+                        HStack {
+                            Image(store.imageName) // Assuming imageName is the logo
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50, height: 50)
+                                .cornerRadius(5)
+                            
+                            Text(store.name)
+                                .font(.headline)
+                        }
+                        .padding(.top, 10)
+                    }
 
                     Button(action: {
                         cartManager.addToCart(album: album)
@@ -149,4 +165,3 @@ struct AlbumDetailView: View {
         .navigationBarTitle("Album Details", displayMode: .inline)
     }
 }
-

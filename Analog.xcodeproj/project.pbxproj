@@ -52,6 +52,7 @@
 		A77A9C402DBBE6DE003409B2 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A9C3F2DBBE6DE003409B2 /* AlbumViewModel.swift */; };
 		A77A9C422DBBE79E003409B2 /* AlbumManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A9C412DBBE79E003409B2 /* AlbumManager.swift */; };
 		A77A9C442DBBE879003409B2 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A9C432DBBE879003409B2 /* StoreManager.swift */; };
+		A7F709282DC842F900B6C15F /* StoreAlbumsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F709272DC842F900B6C15F /* StoreAlbumsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		A77A9C3F2DBBE6DE003409B2 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
 		A77A9C412DBBE79E003409B2 /* AlbumManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumManager.swift; sourceTree = "<group>"; };
 		A77A9C432DBBE879003409B2 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		A7F709272DC842F900B6C15F /* StoreAlbumsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAlbumsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 				A76B397B2DC4BD05009CE2CF /* AlbumRowView.swift */,
 				A76B397D2DC4BEE7009CE2CF /* FormatAlbumListView.swift */,
 				A76B39812DC4D837009CE2CF /* StoreMapListView.swift */,
+				A7F709272DC842F900B6C15F /* StoreAlbumsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				A77A9C2A2DB1AD0D003409B2 /* StoreDetailView.swift in Sources */,
 				A77A9C3C2DBBCACD003409B2 /* ProfileView.swift in Sources */,
 				A77A9C442DBBE879003409B2 /* StoreManager.swift in Sources */,
+				A7F709282DC842F900B6C15F /* StoreAlbumsView.swift in Sources */,
 				A77A9C302DB28911003409B2 /* MapView.swift in Sources */,
 				A77A9C362DB29B43003409B2 /* FavoritesManager.swift in Sources */,
 				A77A9C402DBBE6DE003409B2 /* AlbumViewModel.swift in Sources */,
