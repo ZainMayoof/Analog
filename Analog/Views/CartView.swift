@@ -4,6 +4,7 @@
 //
 //  Created by zain Mayoof on 16/04/2025.
 //
+
 import SwiftUI
 
 struct CartView: View {
@@ -12,49 +13,63 @@ struct CartView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(cartManager.items) { item in
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(item.album.title)
+                if cartManager.items.isEmpty {
+                    // Empty Cart View
+                    VStack {
+                        Image(systemName: "cart.fill") // Replace with your empty cart image if needed
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                        Text("Your cart is empty")
                             .font(.headline)
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                } else {
+                    ForEach(cartManager.items) { item in
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(item.album.title)
+                                .font(.headline)
 
-                        HStack {
-                            Button(action: {
-                                if item.quantity > 1 {
-                                    cartManager.updateQuantity(for: item, change: -1)
+                            HStack {
+                                Button(action: {
+                                    if item.quantity > 1 {
+                                        cartManager.updateQuantity(for: item, change: -1)
+                                    }
+                                }) {
+                                    Image(systemName: "minus.circle.fill")
+                                        .foregroundColor(.red)
                                 }
-                            }) {
-                                Image(systemName: "minus.circle.fill")
-                                    .foregroundColor(.red)
+
+                                Text("Qty: \(item.quantity)")
+                                    .font(.subheadline)
+                                    .frame(minWidth: 40)
+
+                                Button(action: {
+                                    cartManager.updateQuantity(for: item, change: 1)
+                                }) {
+                                    Image(systemName: "plus.circle.fill")
+                                        .foregroundColor(.green)
+                                }
+
+                                Spacer()
+
+                                Text("$\(item.album.price * Double(item.quantity), specifier: "%.2f")")
+                                    .font(.subheadline)
                             }
-
-                            Text("Qty: \(item.quantity)")
-                                .font(.subheadline)
-                                .frame(minWidth: 40)
-
-                            Button(action: {
-                                cartManager.updateQuantity(for: item, change: 1)
-                            }) {
-                                Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.green)
-                            }
-
-                            Spacer()
-
-                            Text("$\(item.album.price * Double(item.quantity), specifier: "%.2f")")
-                                .font(.subheadline)
+                        }
+                        .padding(.vertical, 6)
+                    }
+                    .onDelete { indexSet in
+                        indexSet.forEach { index in
+                            let item = cartManager.items[index]
+                            cartManager.removeFromCart(item: item)
                         }
                     }
-                    .padding(.vertical, 6)
-                }
-                .onDelete { indexSet in
-                    indexSet.forEach { index in
-                        let item = cartManager.items[index]
-                        cartManager.removeFromCart(item: item)
-                    }
-                }
 
-                // ✅ Total and Checkout
-                if !cartManager.items.isEmpty {
+                    // ✅ Total and Checkout
                     VStack(spacing: 10) {
                         HStack {
                             Spacer()

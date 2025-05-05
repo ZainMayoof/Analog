@@ -23,17 +23,15 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 32) {
-                    // 🏠 Welcome Header
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Welcome to")
-                            .font(.title2)
+            NavigationView {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 32) {
+                        // 🏠 Welcome Header
+                        Text("🎵 Welcome to Analog")
+                            .font(.title.bold())
                             .foregroundColor(.secondary)
-                        Text("Analog")
-                            .font(.largeTitle.bold())
-                    }
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
                     .padding(.horizontal)
 
                     // 💿 CD Section
@@ -59,7 +57,6 @@ struct HomeView: View {
                 }
                 .padding(.top)
             }
-            .navigationTitle("Home")
             .navigationBarItems(trailing:
                 NavigationLink(destination: ProfileView()) {
                     Image(systemName: "person.circle")

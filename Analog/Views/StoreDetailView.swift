@@ -31,11 +31,15 @@ struct StoreDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 // 🖼 Store Image
-                Image(store.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .cornerRadius(10)
+                HStack {
+                    Spacer()
+                    Image(store.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                    Spacer()
+                }
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(store.name)
@@ -49,41 +53,6 @@ struct StoreDetailView: View {
                 }
                 .padding(.horizontal)
 
-                Divider().padding(.horizontal)
-
-                // 🎧 Albums
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Albums")
-                        .font(.headline)
-                        .padding(.horizontal)
-
-                    if storeAlbums.isEmpty {
-                        Text("No albums available.")
-                            .foregroundColor(.gray)
-                            .padding(.horizontal)
-                    } else {
-                        ForEach(storeAlbums) { album in
-                            NavigationLink(destination: AlbumDetailView(album: album)) {
-                                HStack(spacing: 12) {
-                                    Image(album.coverURL)
-                                        .resizable()
-                                        .frame(width: 60, height: 60)
-                                        .cornerRadius(8)
-
-                                    VStack(alignment: .leading) {
-                                        Text(album.title)
-                                            .font(.headline)
-                                        Text(album.artist)
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                    }
-                                }
-                                .padding(.horizontal)
-                                .padding(.vertical, 4)
-                            }
-                        }
-                    }
-                }
 
                 Divider().padding(.horizontal)
 

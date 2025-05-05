@@ -23,6 +23,7 @@ struct StoreMapListView: View {
                 Map(coordinateRegion: $region, annotationItems: storeManager.stores) { store in
                     MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: store.latitude, longitude: store.longitude)) {
                         Button(action: {
+                            // Set the selected store to the one corresponding to the pin clicked
                             selectedStore = store
                         }) {
                             Image(systemName: "mappin.circle.fill")
@@ -38,7 +39,12 @@ struct StoreMapListView: View {
                 // Store list below map
                 ScrollView {
                     ForEach(storeManager.stores) { store in
-                        NavigationLink(destination: StoreDetailView(store: store)) {
+                        NavigationLink(destination: StoreDetailView(store: store), isActive: Binding(
+                            get: { selectedStore?.id == store.id },
+                            set: { isActive in
+                                if !isActive { selectedStore = nil }
+                            }
+                        )) {
                             HStack {
                                 Image(store.imageName)
                                     .resizable()
