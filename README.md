@@ -14,6 +14,31 @@
 - ✨ Featured and Trending Albums Section
 
 ---
+## 📸 Screenshots
+
+### Browse Music & Discover Stores
+
+<p>
+  <img src="screenshots/ANALOG-page-05-1.jpg" alt="Home screen" width="220">
+  <img src="screenshots/ANALOG-page-06-1.jpg" alt="Browse stores" width="220">
+  <img src="screenshots/ANALOG-page-07-1.png" alt="Store details and reviews" width="220">
+</p>
+
+### Album Details & Shopping Cart
+
+<p>
+  <img src="screenshots/ANALOG-page-08-1.jpg" alt="Album details" width="220">
+  <img src="screenshots/ANALOG-page-09-1.png" alt="Shopping cart" width="220">
+</p>
+
+### Profile & Login
+
+<p>
+  <img src="screenshots/ANALOG-page-10-1.jpg" alt="User profile" width="220">
+  <img src="screenshots/ANALOG-page-11-1.png" alt="Login screen" width="220">
+</p>
+
+---
 
 ## 🛠️ Tech Stack
 
